@@ -1,353 +1,284 @@
+# ==============================================================================
+# PredictionMart: A Single-Page Informational Website
+#
+# Author: Group A13
+# Date: September 26, 2025
+#
+# This script creates a complete, single-page Streamlit application.
+# All content, logic, and styling are self-contained in this file for
+# easy deployment on platforms like Streamlit Community Cloud.
+# ==============================================================================
+
 import streamlit as st
 import pandas as pd
 import altair as alt
-from datetime import datetime
+import textwrap
 
-# Page configuration
-st.set_page_config(page_title="PredictionMart", page_icon="📈", layout="wide")
+# --- 1. PAGE CONFIGURATION ---
+# Set the page title, icon, and layout. This must be the first Streamlit
+# command in the script.
+st.set_page_config(
+    page_title="PredictionMart | The Future of Foresight in Asia",
+    page_icon="📈",
+    layout="wide"
+)
 
-# Custom CSS
-st.markdown("""
-<style>
-    .main-header {
-        font-size: 3rem;
-        font-weight: 700;
-        color: #1f2937;
-        margin-bottom: 0.5rem;
-    }
-    .tagline {
-        font-size: 1.2rem;
-        color: #6b7280;
-        margin-bottom: 2rem;
-    }
-    .context-line {
-        font-size: 1rem;
-        color: #9ca3af;
-        font-style: italic;
-        margin-bottom: 3rem;
-    }
-    .persona-card {
-        background: #f8fafc;
-        padding: 1.5rem;
-        border-radius: 8px;
-        border-left: 4px solid #3b82f6;
-        margin-bottom: 1rem;
-    }
-    .section-divider {
-        margin: 3rem 0;
-        border-top: 2px solid #e5e7eb;
-    }
-    .nav-button {
-        width: 100%;
-        margin-bottom: 0.5rem;
-    }
-</style>
-""", unsafe_allow_html=True)
+# --- 2. SITE CONTENT & CONFIGURATION ---
+# All text content is stored in dictionaries for easy editing. Multi-line
+# strings are defined using triple quotes for readability.
 
-# Copy variables
-TITLE = "PredictionMart — Trade the Future, Transparently"
-TAGLINE = "Democratizing foresight across Asia. PredictionMart lets you invest in the likelihood of real-world events in tech, trade, economics, and geopolitics—turning collective intelligence into transparent market prices."
-CONTEXT_LINE = "Incorporated from **Dubai or Singapore** for regulatory clarity; initial focus on East & West Asia with a strong emphasis on **India**."
-
-PERSONAS = {
-    "Retail Trader Rahul": {
-        "goals": "Learn fast, act on news, see clear probabilities.",
-        "markets": "Elections, cricket-adjacent policy/economy news, Big Tech launches.",
-        "why": "Simple \"price ≈ probability,\" transparent $1 settlement, intuitive UI."
-    },
-    "Analyst Ayesha": {
-        "goals": "Pressure-test theses, track macro/tech expectations, quantify sentiment.",
-        "markets": "Interest rate decisions, chip supply chains, AI product timelines.",
-        "why": "Aggregated beliefs in one number; movable capital to reflect conviction."
-    },
-    "Policy Student Sunil": {
-        "goals": "Understand how markets synthesize information; practice evidence-based reasoning.",
-        "markets": "Trade agreements, energy transitions, regulatory milestones.",
-        "why": "Hands-on learning with verifiable outcomes and clear payoffs."
-    }
+SITE_CONFIG = {
+    "page_title": "PredictionMart | The Future of Foresight in Asia",
+    "page_icon": "📈",
+    "youtube_video_id": "Gv_i2i4h5f8", # Placeholder explainer video
+    "footer_email": "contact@predictionmart.dev",
+    "current_year": 2025
 }
 
-WHAT_IS_TEXT = """
-A **prediction market** lets people trade contracts linked to **verifiable future events**.
+CONTENT = {
+    "mission_header": "Mission",
+    "mission_statement": "Democratizing foresight across Asia. PredictionMart lets you invest in the likelihood of real-world events in tech, trade, economics, and geopolitics—turning collective intelligence into transparent, actionable market prices.",
+    "mission_subtext": """
+        We believe that the price of a contract in a prediction market is the most
+        accurate forecast available. Our platform, launching from Dubai and Singapore
+        with an initial focus on India, provides a transparent venue to discover
+        what the crowd thinks about the future.
+    """,
+    "personas_header": "Who Is This For?",
+    "personas": [
+        {"name": "Retail Trader Rahul", "icon": "👨‍💻", "description": "Follows elections, cricket tournaments, and major economic announcements. He seeks transparent probabilities and a platform with a quick learning curve to hedge his views."},
+        {"name": "Analyst Ayesha", "icon": "👩‍💼", "description": "Tracks tech IPOs and macroeconomic indicators for an investment firm. She uses PredictionMart to pressure-test her forecasts and gauge real-time market sentiment."},
+        {"name": "Policy Student Sunil", "icon": "🎓", "description": "Studies public policy and international relations. He explores how our markets aggregate distributed information to create powerful forecasting tools for decision-making."}
+    ],
+    "what_is_header": "What is a Prediction Market?",
+    "what_is_explanation": """
+        A prediction market is a marketplace where people can trade contracts based on the outcomes of future events. It's similar to a stock market, but instead of buying shares in a company, you buy "Yes" or "No" shares in the outcome of an event.
 
-Most markets are **binary** ("Yes/No"). A **Yes** share pays **$1** if the event occurs, **$0** if not.
+        The core principle is simple: **The market price of a contract directly represents the market's consensus on the probability of that event occurring.**
 
-The **price** (between $0.00 and $1.00) is interpreted as the **probability** the event will occur.
+        - A "Yes" share trading at **₹22** or **$0.22** implies a **22%** chance of the event happening.
+        - All contracts are binary (Yes/No) and resolve to either **₹0** or **₹100** ($0 or $1).
+        - If the event you bet "Yes" on occurs, your shares are worth **$1** each. If it doesn't, they are worth **$0**.
+    """,
+    "how_it_works_header": "How It Works: Step-By-Step",
+    "how_it_works_steps": [
+        "**1. Sign Up & Deposit:** Create a secure account and fund it.",
+        "**2. Pick an Event:** Browse markets from tech, economics, sports, and more (e.g., 'Will India's GDP growth exceed 7% this quarter?').",
+        "**3. Buy or Sell Shares:** If you believe the event will happen, buy 'Yes' shares. If not, buy 'No' shares (or sell 'Yes' shares). The price reflects the current probability.",
+        "**4. Watch the Market:** Prices move in real-time as new information and opinions emerge.",
+        "**5. Settlement & Payout:** When the event resolves, winning shares are paid out at $1 each. For example, if you hold 100 'Yes' shares and the event happens, you receive $100."
+    ],
+    "examples_header": "Example Transactions",
+    "example_trades": [
+        {"title": "Trade A: Buying 'Yes' on a Tech Milestone", "scenario": "Market: *'Will a specific Indian tech startup reach a $10B valuation by year-end?'*. The 'Yes' shares are currently trading at **$0.40** (a 40% probability). You are bullish and decide to invest **$100**.", "calculation": {"Investment": "$100.00", "Share Price": "$0.40", "Shares Purchased": "250 ($100 / $0.40)", "Potential Payout": "**$250.00** (250 shares x $1)", "Potential Profit": "**$150.00** ($250 - $100)"}, "outcome": "If the startup hits the valuation target, your shares pay out $250. If not, your shares settle at $0, and the investment is lost."},
+        {"title": "Trade B: Realizing Profit Before Settlement", "scenario": "Market: *'Will the Reserve Bank of India cut interest rates in the next meeting?'*. You buy 'Yes' shares at **$0.60**, investing **$300**. A week later, positive economic news pushes the price up to **$0.75** as market confidence grows.", "calculation": {"Initial Investment": "$300.00", "Initial Share Price": "$0.60", "Shares Purchased": "500 ($300 / $0.60)", "New Share Price": "$0.75", "Value of Holdings": "**$375.00** (500 shares x $0.75)", "Realized Profit if Sold": "**$75.00** ($375 - $300)"}, "outcome": "You can choose to sell your 500 shares at the new price of $0.75, locking in a $75 profit without waiting for the event to resolve."}
+    ],
+    "widgets_header": "Interactive Tools",
+    "calculator_subheader": "Payoff Calculator",
+    "calculator_intro": "Use this tool to understand the potential outcomes of a trade before you make it. Adjust the sliders to see how share price and investment amount affect your potential profit and loss.",
+    "youtube_subheader": "Explainer Video: The Power of Prediction Markets",
+    "faq_header": "FAQ & Disclaimers",
+    "faq_items": {
+        "Is this investment advice?": "No. All content and tools on PredictionMart are for informational and educational purposes only. We are not financial advisors.",
+        "Where is this service available?": "PredictionMart is being developed for launch from business-friendly jurisdictions like Dubai or Singapore. Availability, features, and compliance measures will depend on your local regulations.",
+        "What are the risks?": "Like any market, prices can be volatile. You should only invest capital that you are prepared to lose. The value of your shares can go to zero if your prediction is incorrect."
+    },
+    "footer_text": "PredictionMart | Turning opinion into actionable insight."
+}
 
-Example: If "Will Apple ship an on-device AI iPhone by June 2026?" trades at **$0.22**, the market implies a **22%** chance.
 
-After resolution, contracts **settle**: holders of the correct side receive **$1 per share**; the other side gets **$0**.
-"""
+# --- 3. HELPER FUNCTIONS ---
+# These functions handle calculations and chart creation for the interactive widgets.
 
-HOW_IT_WORKS_STEPS = [
-    "**Sign up** → Create an account.",
-    "**Deposit funds** → Add ₹ or $ balance (jurisdiction permitting).",
-    "**Pick an event** → Browse tech, trade, economics, geopolitics.",
-    "**Buy shares** → Choose **Yes** or **No** based on your view.",
-    "**Trade or hold** → You can sell before resolution or hold to settlement.",
-    "**Settle** → When the event resolves, correct shares pay **$1**; profits are credited."
-]
+def format_currency(value, currency="USD"):
+    """Formats a number as a currency string."""
+    return f"${value:,.2f}"
 
-FAQ_ITEMS = [
-    ("Is this investment advice?", "No. This site is for **information and education** where applicable."),
-    ("Where is PredictionMart available?", "Availability depends on jurisdiction. We are initially set up from **Dubai or Singapore**."),
-    ("What determines market resolution?", "Each market uses **public, verifiable sources** and clear rules to resolve outcomes."),
-    ("Risks:", "Market prices can change rapidly; you can lose some or all of your investment. Fees and rules vary by region."),
-    ("Disclaimer:", "Nothing here is a solicitation or an offer. Check your local laws before participating.")
-]
+def calculate_payoff(share_price, investment_amount, fees_percent=0.0):
+    """Calculates key metrics for a prediction market trade."""
+    if not (0 < share_price < 1):
+        return {} # Return empty dict for invalid prices
+    shares_purchased = investment_amount / share_price
+    max_payout = shares_purchased * 1.0
+    gross_profit = max_payout - investment_amount
+    fee_amount = gross_profit * (fees_percent / 100.0)
+    net_profit = gross_profit - fee_amount
+    loss_if_wrong = -investment_amount
+    roi = (net_profit / investment_amount) * 100 if investment_amount > 0 else 0
+    return {
+        "shares_purchased": shares_purchased,
+        "max_payout": max_payout,
+        "net_profit_if_correct": net_profit,
+        "loss_if_wrong": loss_if_wrong,
+        "roi_if_correct_percent": roi,
+        "breakeven_prob_percent": share_price * 100
+    }
 
-# YouTube video ID (configurable)
-YOUTUBE_VIDEO_ID = "dQw4w9WgXcQ"
+def create_roi_chart(investment, fee_percent):
+    """Creates an Altair chart showing ROI at different winning prices."""
+    prices = [p / 100.0 for p in range(5, 100, 5)]
+    data = []
+    for price in prices:
+        result = calculate_payoff(price, investment, fee_percent)
+        if result:
+            data.append({'price': price, 'roi': result['roi_if_correct_percent']})
+    df = pd.DataFrame(data)
+    chart = alt.Chart(df).mark_line(point=True, strokeWidth=3).encode(
+        x=alt.X('price:Q', title='Purchase Price', axis=alt.Axis(format='%')),
+        y=alt.Y('roi:Q', title='Potential ROI (%)'),
+        tooltip=[alt.Tooltip('price:Q', title='Price', format='.2f'), alt.Tooltip('roi:Q', title='Potential ROI', format='.1f')]
+    ).properties(title=alt.TitleParams(text='Potential ROI vs. Share Price', anchor='middle')).interactive()
+    return chart
 
-# Helper functions
-def format_currency(amount, currency="$", rate=83.0):
-    """Format currency with proper symbol and conversion"""
-    if currency == "₹":
-        converted_amount = amount * rate
-        return f"₹{converted_amount:,.2f}"
-    else:
-        return f"${amount:,.2f}"
+# --- 4. STYLING ---
+# Custom CSS is injected using st.markdown to improve the visual design.
+def local_css():
+    st.markdown('''
+    <style>
+        .stApp { background-color: #F0F2F6; }
+        .block-container { padding-top: 2rem; padding-bottom: 2rem; }
+        h1, h2, h3 { font-weight: 600; color: #1E2B3B; }
+        h1 { font-size: 2.5rem; }
+        h2 { font-size: 2rem; border-bottom: 2px solid #E2E8F0; padding-bottom: 0.5rem; margin-top: 3rem; margin-bottom: 1.5rem; }
+        h3 { font-size: 1.5rem; margin-top: 2rem; margin-bottom: 1rem; }
+        .stMetric { background-color: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 0.5rem; padding: 1rem; }
+        .persona-card { background-color: white; padding: 2rem; border-radius: 0.75rem; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); text-align: center; height: 100%; }
+        .persona-icon { font-size: 3rem; }
+        .sidebar .sidebar-content { background-color: #FFFFFF; }
+    </style>
+    ''', unsafe_allow_html=True)
 
-def format_percentage(value):
-    """Format percentage with 2 decimal places"""
-    return f"{value:.2%}"
+local_css()
 
-# Sidebar navigation
+# --- 5. SIDEBAR NAVIGATION ---
+# The sidebar provides quick links to different sections of the page using HTML anchors.
 with st.sidebar:
-    st.header("Navigation")
-    
-    # Navigation buttons that jump to sections
-    if st.button("🎯 Mission", key="nav_mission", help="Jump to Mission section"):
-        st.markdown('<script>document.getElementById("mission").scrollIntoView();</script>', unsafe_allow_html=True)
-    
-    if st.button("👥 Personas", key="nav_personas"):
-        st.markdown('<script>document.getElementById("personas").scrollIntoView();</script>', unsafe_allow_html=True)
-    
-    if st.button("❓ What Is", key="nav_what_is"):
-        st.markdown('<script>document.getElementById("what-is").scrollIntoView();</script>', unsafe_allow_html=True)
-    
-    if st.button("⚙️ How It Works", key="nav_how"):
-        st.markdown('<script>document.getElementById("how-it-works").scrollIntoView();</script>', unsafe_allow_html=True)
-    
-    if st.button("📊 Examples", key="nav_examples"):
-        st.markdown('<script>document.getElementById("examples").scrollIntoView();</script>', unsafe_allow_html=True)
-    
-    if st.button("🔧 Widgets", key="nav_widgets"):
-        st.markdown('<script>document.getElementById("widgets").scrollIntoView();</script>', unsafe_allow_html=True)
-    
-    if st.button("❔ FAQ", key="nav_faq"):
-        st.markdown('<script>document.getElementById("faq").scrollIntoView();</script>', unsafe_allow_html=True)
+    st.title("Navigation")
+    st.markdown("[Mission](#mission)")
+    st.markdown("[Who Is This For?](#who-is-this-for)")
+    st.markdown("[What is a Prediction Market?](#what-is-a-prediction-market)")
+    st.markdown("[How It Works](#how-it-works-step-by-step)")
+    st.markdown("[Example Transactions](#example-transactions)")
+    st.markdown("[Interactive Tools](#interactive-tools)")
+    st.markdown("[FAQ & Disclaimers](#faq-disclaimers)")
+    st.markdown("---")
+    st.info(f"© {SITE_CONFIG['current_year']} PredictionMart. All rights reserved.")
 
-# Main content
-# Hero section
-st.markdown('<a id="mission"></a>', unsafe_allow_html=True)
-st.markdown(f'<h1 class="main-header">{TITLE}</h1>', unsafe_allow_html=True)
-st.markdown(f'<p class="tagline">{TAGLINE}</p>', unsafe_allow_html=True)
-st.markdown(f'<p class="context-line">{CONTEXT_LINE}</p>', unsafe_allow_html=True)
 
-st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
+# --- 6. MAIN PAGE LAYOUT ---
+# The main content of the app is rendered below, section by section. HTML anchors
+# are created using st.markdown for the sidebar links to target.
 
-# Personas section
-st.markdown('<a id="personas"></a>', unsafe_allow_html=True)
-st.header("👥 Our Users")
+# --- SECTION: Hero ---
+st.markdown('<a name="mission"></a>', unsafe_allow_html=True)
+st.title(f"{SITE_CONFIG['page_icon']} PredictionMart")
+st.header(CONTENT['mission_header'])
+st.subheader(CONTENT['mission_statement'])
+st.markdown(textwrap.dedent(CONTENT['mission_subtext']))
 
-for persona_name, details in PERSONAS.items():
-    st.markdown(f"""
-    <div class="persona-card">
-        <h4>{persona_name}</h4>
-        <p><strong>Goals:</strong> {details['goals']}</p>
-        <p><strong>Typical markets:</strong> {details['markets']}</p>
-        <p><strong>Why PredictionMart:</strong> {details['why']}</p>
-    </div>
-    """, unsafe_allow_html=True)
+# --- SECTION: Personas ---
+st.markdown('<a name="who-is-this-for"></a>', unsafe_allow_html=True)
+st.header(CONTENT['personas_header'])
+cols = st.columns(len(CONTENT['personas']))
+for i, persona in enumerate(CONTENT['personas']):
+    with cols[i]:
+        # Using a multi-line f-string for clean HTML structure.
+        persona_html = f"""
+        <div class="persona-card">
+            <div class="persona-icon">{persona['icon']}</div>
+            <h3>{persona['name']}</h3>
+            <p>{persona['description']}</p>
+        </div>
+        """
+        st.markdown(persona_html, unsafe_allow_html=True)
 
-st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
+# --- SECTION: What is a Prediction Market? ---
+st.markdown('<a name="what-is-a-prediction-market"></a>', unsafe_allow_html=True)
+st.header(CONTENT['what_is_header'])
+st.markdown(textwrap.dedent(CONTENT['what_is_explanation']))
 
-# What is a Prediction Market section
-st.markdown('<a id="what-is"></a>', unsafe_allow_html=True)
-st.header("❓ What Is a Prediction Market?")
-st.markdown(WHAT_IS_TEXT)
+# --- SECTION: How It Works ---
+st.markdown('<a name="how-it-works-step-by-step"></a>', unsafe_allow_html=True)
+st.header(CONTENT['how_it_works_header'])
+for step in CONTENT['how_it_works_steps']:
+    st.markdown(f"- {step}")
 
-st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
+# --- SECTION: Example Transactions ---
+st.markdown('<a name="example-transactions"></a>', unsafe_allow_html=True)
+st.header(CONTENT['examples_header'])
+for trade in CONTENT['example_trades']:
+    with st.expander(trade['title'], expanded=True):
+        st.markdown(f"**Scenario:** {trade['scenario']}")
+        st.markdown("---")
+        cols = st.columns(2)
+        with cols[0]:
+            st.markdown("**Calculation:**")
+            # Building the markdown table string robustly.
+            table_rows = ["| Metric | Value |", "|---|---|"]
+            for key, value in trade['calculation'].items():
+                table_rows.append(f"| {key} | {value} |")
+            st.markdown("\n".join(table_rows))
 
-# How It Works section
-st.markdown('<a id="how-it-works"></a>', unsafe_allow_html=True)
-st.header("⚙️ How It Works")
+        with cols[1]:
+            st.markdown("**Outcome:**")
+            st.info(trade['outcome'])
 
-for i, step in enumerate(HOW_IT_WORKS_STEPS, 1):
-    st.markdown(f"{i}. {step}")
-
-st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
-
-# Examples section
-st.markdown('<a id="examples"></a>', unsafe_allow_html=True)
-st.header("📊 Example Transactions")
-
-# Currency selector for examples
-currency_col1, currency_col2 = st.columns([1, 4])
-with currency_col1:
-    currency = st.selectbox("Currency:", ["$", "₹"], key="examples_currency")
-
-# Example A
-st.subheader("Example A — Buy \"Yes\" and Hold to Settlement")
-price_a = 0.40
-investment_a = 100
-shares_a = investment_a / price_a
-max_payout_a = shares_a * 1.0
-profit_a = max_payout_a - investment_a
-loss_a = 0 - investment_a
-
-example_a_data = {
-    "Metric": ["Price", "Investment", "Shares Purchased", "Max Payout if Correct", "Profit if Correct", "Loss if Incorrect"],
-    "Value": [
-        f"${price_a:.2f}",
-        format_currency(investment_a, currency),
-        f"{shares_a:.2f}",
-        format_currency(max_payout_a, currency),
-        format_currency(profit_a, currency),
-        format_currency(loss_a, currency)
-    ]
-}
-st.dataframe(pd.DataFrame(example_a_data), hide_index=True)
-
-# Example B
-st.subheader("Example B — Buy \"Yes\" and Sell Before Settlement")
-buy_price_b = 0.60
-sell_price_b = 0.75
-investment_b = 100
-shares_b = investment_b / buy_price_b
-proceeds_b = shares_b * sell_price_b
-pnl_b = proceeds_b - investment_b
-
-example_b_data = {
-    "Metric": ["Buy Price", "Investment", "Shares Purchased", "Sell Price", "Proceeds", "P&L (before fees)"],
-    "Value": [
-        f"${buy_price_b:.2f}",
-        format_currency(investment_b, currency),
-        f"{shares_b:.2f}",
-        f"${sell_price_b:.2f}",
-        format_currency(proceeds_b, currency),
-        format_currency(pnl_b, currency)
-    ]
-}
-st.dataframe(pd.DataFrame(example_b_data), hide_index=True)
-
-# Example C (Optional)
-st.subheader("Example C — \"No\" Intuition (Optional)")
-st.markdown("""
-You can express a "No" view by buying the **No** contract when available (pays $1 if the event does **not** occur).
-
-If **No** trades at **$0.68**, it implies a **32%** chance of "Yes." Mechanics mirror the Yes side.
-""")
-
-st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
-
-# Widgets section
-st.markdown('<a id="widgets"></a>', unsafe_allow_html=True)
-st.header("🔧 Interactive Widgets")
+# --- SECTION: Interactive Widgets ---
+st.markdown('<a name="interactive-tools"></a>', unsafe_allow_html=True)
+st.header(CONTENT['widgets_header'])
 
 # Widget 1: Payoff Calculator
-st.subheader("Payoff Calculator")
+st.subheader(CONTENT['calculator_subheader'])
+st.markdown(CONTENT['calculator_intro'])
 
-widget_col1, widget_col2 = st.columns([1, 1])
+calc_cols = st.columns([1, 2])
+with calc_cols[0]:
+    st.markdown("#### Inputs")
+    investment_amount = st.number_input("Your Investment Amount ($)", min_value=1.0, max_value=100000.0, value=100.0, step=50.0)
+    share_price = st.slider("Share Price (Implied Probability)", min_value=0.01, max_value=0.99, value=0.40, step=0.01, format="$%.2f")
+    fees_percent = st.slider("Platform Fees on Profit (%)", min_value=0.0, max_value=10.0, value=1.0, step=0.5)
 
-with widget_col1:
-    # Widget inputs
-    share_price = st.slider("Share Price", min_value=0.01, max_value=0.99, value=0.40, step=0.01)
-    
-    # Currency toggle for widget
-    widget_currency = st.selectbox("Currency:", ["$", "₹"], key="widget_currency")
-    
-    if widget_currency == "$":
-        investment_amount = st.number_input("Investment Amount ($)", min_value=0.01, value=100.0, step=1.0)
-    else:
-        investment_amount_inr = st.number_input("Investment Amount (₹)", min_value=0.83, value=8300.0, step=83.0)
-        investment_amount = investment_amount_inr / 83.0  # Convert to USD for calculations
-    
-    fee_percent = st.slider("Optional Fee (%)", min_value=0.0, max_value=2.0, value=0.0, step=0.1)
+with calc_cols[1]:
+    st.markdown("#### Potential Outcome")
+    results = calculate_payoff(share_price, investment_amount, fees_percent)
+    if results:
+        res_cols = st.columns(3)
+        res_cols[0].metric(label="Shares Purchased", value=f"{results['shares_purchased']:.2f}")
+        res_cols[0].metric(label="Loss if Wrong", value=format_currency(results['loss_if_wrong']))
+        res_cols[1].metric(label="Max Payout (if 'Yes')", value=format_currency(results['max_payout']))
+        res_cols[1].metric(label="Potential ROI", value=f"{results['roi_if_correct_percent']:.1f}%")
+        res_cols[2].metric(label="Net Profit (after fees)", value=format_currency(results['net_profit_if_correct']))
+        res_cols[2].metric(label="Breakeven Probability", value=f"{results['breakeven_prob_percent']:.1f}%")
 
-with widget_col2:
-    # Widget outputs
-    st.subheader("Results")
-    
-    # Validation
-    if investment_amount <= 0:
-        st.error("❌ Investment amount must be greater than 0")
-    elif share_price < 0.01 or share_price > 0.99:
-        st.warning("⚠️ Price should be between $0.01 and $0.99")
-    else:
-        # Calculate results
-        fee_rate = fee_percent / 100
-        investment_after_entry_fee = investment_amount * (1 - fee_rate)
-        shares_purchased = investment_after_entry_fee / share_price
-        max_payout_gross = shares_purchased * 1.0
-        max_payout_after_exit_fee = max_payout_gross * (1 - fee_rate)
-        breakeven_probability = share_price
-        profit_if_correct = max_payout_after_exit_fee - investment_amount
-        loss_if_incorrect = -investment_amount
-        
-        # Display results
-        st.metric("Shares Purchased", f"{shares_purchased:.2f}")
-        st.metric("Max Payout if Correct", format_currency(max_payout_after_exit_fee, widget_currency))
-        st.metric("Breakeven Probability", format_percentage(breakeven_probability))
-        st.metric("Profit if Correct", format_currency(profit_if_correct, widget_currency))
-        st.metric("Loss if Incorrect", format_currency(loss_if_incorrect, widget_currency))
-        
-        # Optional ROI visualization
-        if st.checkbox("Show ROI vs Price Chart"):
-            price_range = [round(max(0.01, share_price - 0.20), 2) + i*0.01 for i in range(41)]
-            roi_data = []
-            for p in price_range:
-                shares = investment_after_entry_fee / p
-                payout = shares * 1.0 * (1 - fee_rate)
-                roi = (payout - investment_amount) / investment_amount * 100
-                roi_data.append({"Price": p, "ROI (%)": roi})
-            
-            roi_df = pd.DataFrame(roi_data)
-            chart = alt.Chart(roi_df).mark_line(color='blue').add_selection(
-                alt.selection_interval()
-            ).encode(
-                x=alt.X('Price:Q', scale=alt.Scale(domain=[min(price_range), max(price_range)])),
-                y='ROI (%):Q',
-                tooltip=['Price:Q', 'ROI (%):Q']
-            ).properties(
-                width=400,
-                height=200,
-                title="ROI vs Share Price"
-            )
-            
-            # Add vertical line for current price
-            current_price_line = alt.Chart(pd.DataFrame([{"Price": share_price, "ROI (%)": 0}])).mark_rule(color='red', strokeDash=[5, 5]).encode(x='Price:Q')
-            
-            st.altair_chart(chart + current_price_line, use_container_width=True)
+with st.expander("Show ROI vs. Purchase Price Chart"):
+    st.altair_chart(create_roi_chart(investment_amount, fees_percent), use_container_width=True)
 
 # Widget 2: YouTube Embed
-st.subheader("Explainer Video")
-youtube_url = f"https://www.youtube.com/embed/{YOUTUBE_VIDEO_ID}"
-st.markdown(f'''
-<iframe width="560" height="315" src="{youtube_url}" 
-frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-allowfullscreen></iframe>
-''', unsafe_allow_html=True)
+st.subheader(CONTENT['youtube_subheader'])
+st.video(f"https://www.youtube.com/watch?v={SITE_CONFIG['youtube_video_id']}")
 
-st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
+# --- SECTION: FAQ & Disclaimers ---
+st.markdown('<a name="faq-disclaimers"></a>', unsafe_allow_html=True)
+st.header(CONTENT['faq_header'])
+for question, answer in CONTENT['faq_items'].items():
+    with st.expander(question):
+        st.write(answer)
 
-# FAQ section
-st.markdown('<a id="faq"></a>', unsafe_allow_html=True)
-st.header("❔ FAQ & Disclaimer")
-
-for question, answer in FAQ_ITEMS:
-    st.subheader(question)
-    st.markdown(answer)
-    st.markdown("")
-
-st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
-
-# Footer
-current_year = datetime.now().year
+# --- SECTION: Footer ---
 st.markdown("---")
-col1, col2 = st.columns([1, 1])
-with col1:
-    st.markdown("**Contact:** [hello@predictionmart.example](mailto:hello@predictionmart.example)")
-with col2:
-    st.markdown(f"**©** {current_year} PredictionMart. All rights reserved.")
+# Using a clear, multi-line f-string for the footer HTML.
+footer_html = f"""
+<div style="text-align: center; padding: 1rem;">
+    <p>{CONTENT['footer_text']}</p>
+    <p>
+        <a href="mailto:{SITE_CONFIG['footer_email']}">Contact Us</a> |
+        <a href="#" target="_blank">Twitter (X)</a> |
+        <a href="#" target="_blank">LinkedIn</a>
+    </p>
+    <p>© {SITE_CONFIG['current_year']} PredictionMart. Built with ❤️ in Asia.</p>
+</div>
+"""
+st.markdown(footer_html, unsafe_allow_html=True)
+
+# --- END OF SCRIPT ---
+
