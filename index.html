@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PredictionMart — Trade the Future, Transparently</title>
+  <meta name="description" content="PredictionMart: a clean, single-page explainer for prediction markets — with a payoff calculator and video embed." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <!-- Sticky Top Nav -->
+  <header class="nav">
+    <div class="nav__inner container">
+      <div class="brand">
+        <div class="logo">📈</div>
+        <div class="brand__text">
+          <span class="brand__title">PredictionMart</span>
+          <span class="brand__tag">Trade the Future, Transparently</span>
+        </div>
+      </div>
+      <nav class="nav__links">
+        <a href="#mission" class="nav__link">Mission</a>
+        <a href="#personas" class="nav__link">Personas</a>
+        <a href="#what" class="nav__link">What Is</a>
+        <a href="#how" class="nav__link">How It Works</a>
+        <a href="#examples" class="nav__link">Examples</a>
+        <a href="#widgets" class="nav__link">Widgets</a>
+        <a href="#faq" class="nav__link">FAQ</a>
+      </nav>
+      <button class="nav__menu" id="navMenuBtn" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero__content">
+        <h1>PredictionMart</h1>
+        <p class="hero__tagline">
+          Democratizing foresight across Asia. Invest in the likelihood of real-world events in <b>tech, trade, economics, and geopolitics</b>—turning collective intelligence into transparent market prices.
+        </p>
+        <p class="hero__context">
+          Incorporated from <b>Dubai or Singapore</b> for regulatory clarity; initial focus on East &amp; West Asia with a strong emphasis on <b>India</b>.
+        </p>
+        <div class="hero__cta">
+          <a href="#widgets" class="btn btn--primary">Try the Payoff Calculator</a>
+          <a href="#what" class="btn btn--ghost">Learn How It Works</a>
+        </div>
+      </div>
+      <div class="hero__card glass">
+        <h3 class="muted">Price ≈ Probability</h3>
+        <p>“Yes” at <b>$0.22</b> ⇒ market implies a <b>22%</b> chance the event occurs.</p>
+        <p>“Yes” at <b>$0.85</b> ⇒ about an <b>85%</b> chance.</p>
+        <p>“Yes” at <b>$0.05</b> ⇒ about a <b>5%</b> chance.</p>
+      </div>
+    </div>
+    <div class="hero__bg"></div>
+  </section>
+
+  <!-- Mission -->
+  <section id="mission" class="section section--pad">
+    <div class="container">
+      <div class="section__header">
+        <h2>Mission</h2>
+        <p class="muted">Clear, credible, and accessible prediction markets for a rapidly changing region.</p>
+      </div>
+      <div class="grid grid--2">
+        <div class="card">
+          <h3>Why PredictionMart</h3>
+          <p>We help people turn beliefs into positions. By trading <b>Yes/No</b> contracts on verifiable events, users express conviction and learn from market-based probabilities.</p>
+          <ul class="checklist">
+            <li>Transparent pricing and $1 binary settlement</li>
+            <li>Education-first onboarding &amp; examples</li>
+            <li>Focus on Asia-relevant events</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Who It’s For</h3>
+          <p>Analysts, students, retail traders, and curious thinkers who want a <b>clean, data-driven</b> way to gauge real-time sentiment on future outcomes.</p>
+          <p class="muted small">*This site is informational. Availability depends on jurisdiction. Not investment advice.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Personas -->
+  <section id="personas" class="section section--pad alt">
+    <div class="container">
+      <div class="section__header">
+        <h2>Customer Personas</h2>
+        <p class="muted">Three representative users—and why they’d use PredictionMart.</p>
+      </div>
+      <div class="grid grid--3">
+        <div class="card card--person">
+          <h3>Retail Trader Rahul</h3>
+          <p><b>Goals:</b> Learn fast, act on news, see clear probabilities.</p>
+          <p><b>Markets:</b> Elections, cricket-adjacent policy/economy, Big Tech launches.</p>
+          <p><b>Why us:</b> Simple price≈probability, $1 settlement, intuitive UI.</p>
+        </div>
+        <div class="card card--person">
+          <h3>Analyst Ayesha</h3>
+          <p><b>Goals:</b> Pressure-test theses, track macro/tech expectations.</p>
+          <p><b>Markets:</b> Rate decisions, chip supply chains, AI product timelines.</p>
+          <p><b>Why us:</b> Aggregated beliefs in one number; capital reflects conviction.</p>
+        </div>
+        <div class="card card--person">
+          <h3>Policy Student Sunil</h3>
+          <p><b>Goals:</b> See how markets synthesize information for decisions.</p>
+          <p><b>Markets:</b> Trade agreements, energy transitions, regulatory milestones.</p>
+          <p><b>Why us:</b> Hands-on learning with verifiable outcomes and clear payoffs.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- What Is a Prediction Market -->
+  <section id="what" class="section section--pad">
+    <div class="container">
+      <div class="section__header">
+        <h2>What Is a Prediction Market?</h2>
+        <p class="muted">The essentials—kept simple and visual.</p>
+      </div>
+
+      <div class="grid grid--2">
+        <div class="card">
+          <h3>1) Event Definition</h3>
+          <p>An event with uncertain outcomes is defined. Each outcome gets a contract (often binary: Yes/No).</p>
+          <ul class="bullets">
+            <li>“Will Kamala Harris win the 2024 U.S. Presidential Election?”</li>
+            <li>“Will Apple release an AI-powered iPhone by June 2025?”</li>
+            <li>“Will global temperatures exceed 1.5°C above pre-industrial levels in 2024?”</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>2) Trading Contracts</h3>
+          <p>Buy/sell shares tied to outcomes:</p>
+          <ul class="bullets">
+            <li>“Yes” pays <b>$1</b> if the event happens, <b>$0</b> if not.</li>
+            <li>“No” pays <b>$1</b> if it doesn’t happen, <b>$0</b> if it does.</li>
+            <li>Prices range from <b>$0.00</b>–<b>$1.00</b>, interpreted as probabilities.</li>
+            <li>Example: “SpaceX lands Starship on Mars by 2030?” trading at <b>$0.22</b> ⇒ market believes <b>22%</b> chance.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>3) Price = Probability</h3>
+          <p>Market prices reflect aggregated beliefs:</p>
+          <ul class="bullets">
+            <li><b>$0.85</b> ⇒ ~<b>85%</b> chance the event occurs.</li>
+            <li><b>$0.05</b> ⇒ ~<b>5%</b> chance (unlikely).</li>
+          </ul>
+          <p class="muted small">Similar to how stock prices reflect collective expectations of value.</p>
+        </div>
+
+        <div class="card">
+          <h3>4) Settlement</h3>
+          <p>After the event occurs (or the deadline passes), contracts pay out:</p>
+          <ul class="bullets">
+            <li>“Yes” holders get <b>$1/share</b> if the outcome is true.</li>
+            <li>“No” holders get <b>$1/share</b> if the outcome is false.</li>
+            <li>Profits/losses: <b>(Payout − Purchase Price) × Shares</b>.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section id="how" class="section section--pad alt">
+    <div class="container">
+      <div class="section__header">
+        <h2>How It Works</h2>
+        <p class="muted">From onboarding to payout.</p>
+      </div>
+
+      <ol class="steps">
+        <li><b>Sign up</b> → Create an account.</li>
+        <li><b>Deposit funds</b> → Add ₹ or $ balance (jurisdiction permitting).</li>
+        <li><b>Pick an event</b> → Browse tech, trade, economics, geopolitics.</li>
+        <li><b>Buy shares</b> → Choose <b>Yes</b> or <b>No</b> based on your view.</li>
+        <li><b>Trade or hold</b> → Sell before resolution or hold to settlement.</li>
+        <li><b>Settle</b> → Correct side pays <b>$1/share</b>; profits are credited.</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- Examples -->
+  <section id="examples" class="section section--pad">
+    <div class="container">
+      <div class="section__header">
+        <h2>Example Transactions</h2>
+        <p class="muted">Quick, numerical walkthroughs.</p>
+      </div>
+
+      <div class="grid grid--2">
+        <div class="card">
+          <h3>Example A — Buy “Yes” and Hold</h3>
+          <p><b>Inputs:</b> Price = <b>$0.40</b>, Investment = <b>$100</b></p>
+          <div class="table-wrap">
+            <table class="table">
+              <tbody>
+                <tr><td>Shares Purchased</td><td>Investment / Price = 100 / 0.40 = <b>250</b></td></tr>
+                <tr><td>Max Payout if “Yes”</td><td>250 × $1.00 = <b>$250.00</b></td></tr>
+                <tr><td>Profit if Correct (pre-fees)</td><td>$250 − $100 = <b>$150.00</b></td></tr>
+                <tr><td>Loss if Incorrect (pre-fees)</td><td>$0 − $100 = <b>−$100.00</b></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Example B — Sell Before Settlement</h3>
+          <p><b>Inputs:</b> Buy “Yes” at <b>$0.60</b> with <b>$100</b>; later price = <b>$0.75</b></p>
+          <div class="table-wrap">
+            <table class="table">
+              <tbody>
+                <tr><td>Shares Purchased</td><td>100 / 0.60 = <b>166.67</b></td></tr>
+                <tr><td>Proceeds at Sale</td><td>166.67 × 0.75 = <b>$125.00</b></td></tr>
+                <tr><td>P&amp;L (pre-fees)</td><td>$125.00 − $100.00 = <b>+$25.00</b></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="muted small">Fees (if any) reduce net proceeds; see calculator below.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Widgets -->
+  <section id="widgets" class="section section--pad alt">
+    <div class="container">
+      <div class="section__header">
+        <h2>Widgets</h2>
+        <p class="muted">Interactive tools to internalize the mechanics.</p>
+      </div>
+
+      <div class="grid grid--2">
+        <!-- Custom Widget: Payoff Calculator -->
+        <div class="card">
+          <h3>Payoff Calculator</h3>
+          <p class="muted small">Assumes $1 binary settlement. Optional fee applies on entry and exit (simplified).</p>
+
+          <div class="form grid grid--2">
+            <label class="form__field">
+              <span>Share Price (0.01–0.99)</span>
+              <input type="number" id="priceInput" min="0.01" max="0.99" step="0.01" value="0.40" />
+            </label>
+
+            <label class="form__field">
+              <span>Investment Amount</span>
+              <input type="number" id="investmentInput" min="1" step="1" value="100" />
+            </label>
+
+            <label class="form__field">
+              <span>Fee (%) each side</span>
+              <input type="number" id="feeInput" min="0" max="2" step="0.1" value="0.5" />
+            </label>
+
+            <label class="form__field">
+              <span>Currency</span>
+              <select id="currencySelect">
+                <option value="USD" selected>USD ($)</option>
+                <option value="INR">INR (₹)</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="btn-row">
+            <button id="calcBtn" class="btn btn--primary">Calculate</button>
+            <button id="resetBtn" class="btn btn--ghost">Reset</button>
+          </div>
+
+          <div id="calcResults" class="results hidden"></div>
+          <div id="roiChart" class="roi-chart hidden" aria-label="ROI vs. Price (approx.)"></div>
+        </div>
+
+        <!-- Prebuilt Widget: YouTube -->
+        <div class="card">
+          <h3>Video: Prediction Markets Explained</h3>
+          <p class="muted small">A short explainer from the web (example embed).</p>
+          <div class="video">
+            <iframe
+              id="ytEmbed"
+              src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+              title="Prediction Markets Explainer"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen
+            ></iframe>
+          </div>
+          <div class="form">
+            <label class="form__field">
+              <span>Replace YouTube Video ID</span>
+              <input type="text" id="ytIdInput" placeholder="e.g., 5MgBikgcWnY" />
+            </label>
+            <button id="ytApplyBtn" class="btn btn--ghost">Apply</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="section section--pad">
+    <div class="container">
+      <div class="section__header">
+        <h2>FAQ &amp; Disclaimer</h2>
+        <p class="muted">Important notes and common questions.</p>
+      </div>
+
+      <div class="accordion">
+        <details>
+          <summary>Is this investment advice?</summary>
+          <p>No. This site is for <b>information and education</b> where applicable.</p>
+        </details>
+        <details>
+          <summary>Where is PredictionMart available?</summary>
+          <p>Availability depends on jurisdiction. We are initially set up from <b>Dubai or Singapore</b>.</p>
+        </details>
+        <details>
+          <summary>How are outcomes resolved?</summary>
+          <p>Each market uses <b>public, verifiable sources</b> and clear rules to resolve outcomes.</p>
+        </details>
+        <details>
+          <summary>What are the risks?</summary>
+          <p>Market prices can change rapidly; you can lose some or all of your investment. Fees and rules vary by region.</p>
+        </details>
+      </div>
+
+      <p class="muted small">Disclaimer: Nothing here is a solicitation or an offer. Check your local laws before participating.</p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div>
+        <strong>PredictionMart</strong> &middot; hello@predictionmart.example
+      </div>
+      <div class="muted small">© <span id="year"></span> PredictionMart. All rights reserved.</div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
